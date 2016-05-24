@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Thumbnail Gallery Template for Bootstrap 3</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom CSS for the 'Thumbnail Gallery' Template -->
+  <link href="css/thumbnail-gallery.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <!-- javascript -->
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.js"></script> 
+  <!-- Add fancyBox -->
+  <link rel="stylesheet" href="js/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="js/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="js/meizi.js"></script>
+
+  <link rel="stylesheet" href="css/style.css"/>
+  <script type="text/javascript">
+  var arr = [];
+  <?php foreach($girls as $girl):?>
+  arr.push({'uid':<? echo $girl['uid'];?>, like: <? echo $girl['like'];?>})
+  <?php endforeach;?>
+  $(document).ready(function() {
+    $(".fancybox").fancybox({
+      prevEffect    : 'none',
+      nextEffect    : 'none',
+      loop: false,
+      keys: {
+        next : {
+          13 : 'left', // enter
+          34 : 'up',   // page down
+          39 : 'left', // right arrow
+          40 : 'up',    // down arrow
+          68 : 'left'
+        },
+        prev : {
+          8  : 'right',  // backspace
+          33 : 'down',   // page up
+          37 : 'right',  // left arrow
+          38 : 'down',    // up arrow
+          65 : 'right'
+        },
+        close  : [27, 83] // escape key
+      }
+    });
+  });
+  </script>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" onclick="showGirls()">换一批</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container -->
+  </nav>
+
+  <div class="container">
+
+    <div class="row">
+
+          <? foreach($girls as $girl): ?>
+          <div class='girl'>
+              <div style="float:left">
+                <img class='like' id='<? echo $girl['uid'];?>' src="img/unlike.png" />
+              </div>
+              <div class='info'>
+                 <a target='_blank' href="http://www.jiayuan.com/<? echo $girl['uid'];?>"><? echo $girl['name'] ?></a>
+                 <span class='age'><? echo $girl['age'];?>岁</span>
+                 <div>
+                   <span class='job'><? echo $girl['job'];?></span>
+                   <span class='come_from'><? echo $girl['hukou'];?></span>
+                 </div>
+              </div>
+              <div style="clear:both"></div>
+              <div class='photo'>
+                 <?php foreach($girl['photos'] as $key=>$photo):?>
+                 <a <?if($key > 0):?>style="display:none"<?endif;?> class="fancybox thumbnail" rel="<? echo $girl['uid'];?>" href="<? echo $photo;?>"><img class="pic" src="<? echo str_replace('d.jpg', 'd_wap.jpg', $photo) ;?>" /></a>
+                 <?php endforeach;?>
+              </div>
+          </div><!-- /.girl -->
+          <?php endforeach;?>
+
+    </div><!-- /.row -->
+
+  <hr>
+
+  <footer>
+    <div class="row">
+      <div class="col-lg-12">
+        <p>Copyright &copy; Company 2013 &middot; Facebook &middot; Twitter &middot; Google+</p>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /.container -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title></title>
+  <script src="js/jquery.js"></script>
+  <script src="js/highstock.src.js"></script>
+  <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+  
+
+  <script type="text/javascript">
+
+  $(function () {
+    $.getJSON('./days', function (data) {
+        var data = data.data;
+        // split the data set into ohlc and volume
+        var ohlc = [],
+            volume = [],
+            dataLength = data.length,
+            // set the allowed units for data grouping
+            groupingUnits = [[
+                'week',                         // unit name
+                [1]                             // allowed multiples
+            ], [
+                'month',
+                [1, 2, 3, 4, 6]
+            ]],
+
+            i = 0,
+            time;
+
+        for (i; i < dataLength; i += 1) {
+            time = new Date(data[i].time);
+            time = time.getTime();
+            ohlc.push([
+                time, // the date
+                Number(data[i].open), // open
+                Number(data[i].high), // high
+                Number(data[i].low), // low
+                Number(data[i].close) // close
+            ]);
+
+            volume.push([
+                time, // the date
+                Number(data[i].volume) // the volume
+            ]);
+        }
+
+
+        // create the chart
+        $('#container').highcharts('StockChart', {
+
+            rangeSelector: {
+                selected: 1
+            },
+            colors: ['#080', '#434348', '#90ed7d', '#f7a35c', 
+        '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'],
+            title: {
+                text: '中国平安'
+            },
+            tooltip: {
+              borderColor: '#434348',
+              crosshairs: true,
+              animation: false
+            },
+
+            yAxis: [{
+                labels: {
+                    align: 'right',
+                    x: -3
+                },
+                title: {
+                    text: 'k线图'
+                },
+                height: '60%',
+                lineWidth: 2
+            }, {
+                labels: {
+                    align: 'right',
+                    x: -3
+                },
+                title: {
+                    text: '成交量'
+                },
+                top: '65%',
+                height: '35%',
+                offset: 0,
+                lineWidth: 2
+            }],
+
+            series: [{
+                type: 'candlestick',
+                name: '中国平安',
+                data: ohlc,
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            }, {
+                type: 'column',
+                name: 'Volume',
+                data: volume,
+                yAxis: 1,
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            }]
+        });
+    });
+});
+  </script>
+
+
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body>
+
+
+  <div id="container" style="height: 500px; min-width: 310px; width: 600px">
+
+
+
+
+  </div><!-- /.container -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+SELECT symbol
+FROM gupiao
+WHERE id <600500
+AND id >600000
+LIMIT 0 , 30
+
+443984
+
+SELECT symbol FROM gupiao WHERE id <601000 AND id >=600500
+
+869736
+
+SELECT symbol FROM gupiao WHERE id <603128 AND id >=601000
+
+1007896
+
+SELECT symbol FROM gupiao WHERE symbol LIKE  'SZ0%'
+
+2342252
+
+SELECT symbol FROM gupiao WHERE symbol LIKE  'SZ3%'
